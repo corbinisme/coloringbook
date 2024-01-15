@@ -1,0 +1,177 @@
+<html>
+<head>
+    <title>BarD</title>
+    <style>
+        #canvasWrapperOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-size: cover;
+            background-position: center center;
+        }
+        #coloringTools {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #navigation {
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+    <body>
+        
+        <div id="canvasWrapperOverlay">
+           
+            </div>  
+        <div id="canvasWrapper">
+            <canvas id="coloringCanvas" width="612" height="792"></canvas>
+        </div>
+        
+        <div id="coloringTools">
+
+        
+            <div id="colorPicker">
+                <button onclick="coloring.changeColor('black')">Black</button>
+                <button onclick="coloring.changeColor('red')">Red</button>
+                <button onclick="coloring.changeColor('green')">Green</button>
+                <button onclick="coloring.changeColor('blue')">Blue</button>
+            </div>
+            <div id="coloringThickness">
+                <button onclick="coloring.changeThickness(5)">Thin</button>
+                <button onclick="coloring.changeThickness(10)">Medium</button>
+                <button onclick="coloring.changeThickness(20)">Thick</button>
+            </div>
+        </div>
+        <div id="navigation">
+            <div>
+                <button onclick="coloring.reset()">Reset</button>
+                <button onclick="coloring.save()">Save</button>
+            </div>
+            <select id="pageSelect">
+                <option value="intro">Intro</option>
+                <option value="command1">1st Commandment</option>
+                <option value="command2">2nd Commandment</option>
+                <option value="command3">3rd Commandment</option>
+                <option value="command4">4th Commandment</option>
+                <option value="command5">5th Commandment</option>
+                <option value="command6">6th Commandment</option>
+                <option value="command7">7th Commandment</option>
+                <option value="command8">8th Commandment</option>
+                <option value="command9">9th Commandment</option>
+                <option value="command10">10th Commandment</option>
+            </select>   
+            
+           
+        </div>
+        <script>
+           var coloring = {
+                canvas: null,
+                canvasWrapper: document.getElementById("canvasWrapper"),
+                ctx: null,
+                currentPage: "intro",
+                img: null,
+                imgSrc: "images/intro.png",
+                drawing: false,
+                color: "black",
+                thickness: 5,
+
+                init: function() {
+                    this.canvas = document.getElementById("coloringCanvas");
+                    this.ctx = this.canvas.getContext("2d");
+
+                    this.img = new Image();
+                    this.img.onload = () => {
+                    this.ctx.drawImage(this.img, 0, 0);
+                    };
+                    this.img.src = this.imgSrc;
+
+                    this.canvas.addEventListener("mousedown", () => {
+                    this.drawing = true;
+                    });
+                    this.canvas.addEventListener("mouseup", () => {
+                    this.drawing = false;
+                    });
+                    this.canvas.addEventListener("mousemove", (e) => {
+                    this.drawLine(e);
+                    });
+
+                    this.binding();
+                },
+                updateImage: function(newImage) {
+                    this.imgSrc = newImage;
+                    this.img.src = this.imgSrc;
+                    this.canvasWrapper.style.backgroundImage = "url(" + newImage + ")";
+                    
+                },
+                updateColor: function(newColor) {
+                    this.color = newColor;
+                },
+                updateThisckness: function(newThickness) {
+                    this.thickness = newThickness;
+                },
+                binding: function(){
+                    document.getElementById("pageSelect").addEventListener("change", function(e){
+                        let val = e.target.value;
+                        let newImage = "images/" + val + ".png";
+                        coloring.currentPage = val;
+                        coloring.updateImage(newImage);
+                        coloring.reset();
+                    });
+                },
+
+                drawLine: function(e) {
+                    if (this.drawing) {
+                    this.ctx.beginPath();
+                    this.ctx.lineWidth = this.thickness;
+                    this.ctx.lineCap = "round";
+                    this.ctx.strokeStyle = this.color;
+                    this.ctx.moveTo(e.clientX - this.canvas.offsetLeft, e.clientY - this.canvas.offsetTop);
+                    this.ctx.lineTo(e.clientX - this.canvas.offsetLeft, e.clientY - this.canvas.offsetTop);
+                    this.ctx.stroke();
+                    this.ctx.closePath();
+                    }
+                },
+
+                changeColor: function(newColor) {
+                    this.color = newColor;
+                },
+
+                changeThickness: function(newThickness) {
+                    this.thickness = newThickness;
+                },
+                reset: function() {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.drawImage(this.img, 0, 0);
+                },
+                save: function() {
+                    let dataURL = this.canvas.toDataURL();
+                    let a = document.createElement("a");
+                    a.href = dataURL;
+                    a.download = "coloring.png";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            };
+
+            coloring.init(); // Call the initialization function
+
+            
+        </script>
+    </body>
+</html>
