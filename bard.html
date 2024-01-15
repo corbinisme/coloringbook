@@ -1,7 +1,12 @@
 <html>
 <head>
-    <title>BarD</title>
+    <title>Jelly Coloring</title>
     <style>
+        .container {
+            margin: auto;
+            max-width: 612px;
+        }
+       
         #canvasWrapperOverlay {
             position: fixed;
             top: 0;
@@ -17,9 +22,14 @@
             width: 100%;
             height: 50px;
             background-color: #ccc;
+            
+        }
+        #coloringTools .container, #navigation .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            align-content: center;
+            height: 100%;
         }
         #navigation {
             position: fixed;
@@ -28,22 +38,21 @@
             width: 100%;
             height: 50px;
             background-color: #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+           
         }
     </style>
     <body>
-        
+        <div id="wrapper" class="container">
         <div id="canvasWrapperOverlay">
            
             </div>  
         <div id="canvasWrapper">
+            
             <canvas id="coloringCanvas" width="612" height="792"></canvas>
         </div>
         
-        <div id="coloringTools">
-
+        <div id="coloringTools" >
+            <div class="container">
         
             <div id="colorPicker">
                 <button onclick="coloring.changeColor('black')">Black</button>
@@ -57,7 +66,9 @@
                 <button onclick="coloring.changeThickness(20)">Thick</button>
             </div>
         </div>
+        </div>
         <div id="navigation">
+            <div class="container">
             <div>
                 <button onclick="coloring.reset()">Reset</button>
                 <button onclick="coloring.save()">Save</button>
@@ -76,8 +87,9 @@
                 <option value="command10">10th Commandment</option>
             </select>   
             
-           
         </div>
+        </div>
+    </div>
         <script>
            var coloring = {
                 canvas: null,
