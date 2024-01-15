@@ -1,0 +1,26 @@
+#coloring {
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width: 100vw;
+}
+#coloring-colors {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    padding: 10px;
+    
+}
+#coloring-colors div {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#drawingCanvas {
+    min-width: 500px;
+    min-height: 500px;
+}
