@@ -27,32 +27,47 @@ var coloring = {
         this.currentLineWidth = newWidth;
     },
     setupEvents: function() {
-        var self = this;
-        this.img.onload = function() {
-            self.resizeCanvas();
-        };
-        this.img.src = this.currentImageUrl;
-        window.addEventListener('resize', function() {
-            self.resizeCanvas();
+      var self = this;
+      this.img.onload = function() {
+        self.resizeCanvas();
+      };
+      
+      this.img.src = this.currentImageUrl;
+      window.addEventListener('resize', function() {
+        self.resizeCanvas();
+      });
+      this.canvas.addEventListener('mousedown', function(e) {
+        self.isDrawing = true;
+        self.draw(e.clientX - self.canvas.getBoundingClientRect().left, e.clientY - self.canvas.getBoundingClientRect().top);
+      });
+      this.canvas.addEventListener('mousemove', function(e) {
+        if (self.isDrawing) {
+          self.draw(e.clientX - self.canvas.getBoundingClientRect().left, e.clientY - self.canvas.getBoundingClientRect().top);
+        }
+      });
+      this.canvas.addEventListener('mouseup', function() {
+        self.isDrawing = false;
+      });
+      this.canvas.addEventListener('touchstart', function(e) {
+        self.isDrawing = true;
+        var touch = e.touches[0];
+        self.draw(touch.clientX - self.canvas.getBoundingClientRect().left, touch.clientY - self.canvas.getBoundingClientRect().top);
+      });
+      this.canvas.addEventListener('touchmove', function(e) {
+        if (self.isDrawing) {
+          var touch = e.touches[0];
+          self.draw(touch.clientX - self.canvas.getBoundingClientRect().left, touch.clientY - self.canvas.getBoundingClientRect().top);
+        }
+      });
+      this.canvas.addEventListener('touchend', function() {
+        self.isDrawing = false;
+      });
+      document.querySelectorAll(".coloring-color").forEach(function(elem) {
+        let color = elem.getAttribute("data-color");
+        elem.addEventListener("click", function() {
+          self.changeColor(color);
         });
-        this.canvas.addEventListener('mousedown', function(e) {
-            self.isDrawing = true;
-            self.draw(e.clientX - self.canvas.getBoundingClientRect().left, e.clientY - self.canvas.getBoundingClientRect().top);
-        });
-        this.canvas.addEventListener('mousemove', function(e) {
-            if (self.isDrawing) {
-                self.draw(e.clientX - self.canvas.getBoundingClientRect().left, e.clientY - self.canvas.getBoundingClientRect().top);
-            }
-        });
-        this.canvas.addEventListener('mouseup', function() {
-            self.isDrawing = false;
-        });
-        document.querySelectorAll(".coloring-color").forEach(function(elem) {
-            let color = elem.getAttribute("data-color");
-            elem.addEventListener("click", function() {
-                self.changeColor(color);
-            });
-        });
+      });
     },
     init: function(){
         this.currentImageUrl = 'OIP.jpg';
