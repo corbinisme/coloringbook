@@ -111,6 +111,7 @@
 
 
                 init: function() {
+                    const self = this;
                     this.canvas = document.getElementById("coloringCanvas");
                     this.ctx = this.canvas.getContext("2d");
 
@@ -128,8 +129,27 @@
                     });
                     this.canvas.addEventListener("mousemove", (e) => {
                         
-                        this.drawLine(e);
+                        self.drawLine(e);
                         
+                    });
+                    this.canvas.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        self.drawing = true;
+                        console.log("touchstart")
+                        var touch = e.touches[0];
+                        self.drawLine(touch);
+                    });
+                    this.canvas.addEventListener('touchmove', function(e) {
+                        e.preventDefault();
+                        console.log("touchmove")
+                        if (self.drawing) {
+                        
+                            var touch = e.touches[0];
+                            self.drawLine(touch);
+                        }
+                    });
+                    this.canvas.addEventListener('touchend', function() {
+                        self.drawing = false;
                     });
 
 
