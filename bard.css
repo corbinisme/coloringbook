@@ -1,0 +1,36 @@
+.container {
+    margin: auto;
+    max-width: 612px;
+}
+#coloringCanvas {
+    BOX-SHADOW: 0  0  29px -19PX #333;
+    cursor: crosshair;
+}
+#canvasWrapper {padding-top: 50px;}
+
+
+#coloringTools {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #ccc;
+    
+}
+#coloringTools .container, #navigation .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+}
+#navigation {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #eee;
+   
+}

@@ -37,6 +37,7 @@ var coloring = {
         self.resizeCanvas();
       });
       this.canvas.addEventListener('mousedown', function(e) {
+        console.log("mousedown")
         self.isDrawing = true;
         self.draw(e.clientX - self.canvas.getBoundingClientRect().left, e.clientY - self.canvas.getBoundingClientRect().top);
       });
@@ -49,11 +50,15 @@ var coloring = {
         self.isDrawing = false;
       });
       this.canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
         self.isDrawing = true;
+        console.log("touchstart")
         var touch = e.touches[0];
         self.draw(touch.clientX - self.canvas.getBoundingClientRect().left, touch.clientY - self.canvas.getBoundingClientRect().top);
       });
       this.canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        console.log("touchmove")
         if (self.isDrawing) {
           var touch = e.touches[0];
           self.draw(touch.clientX - self.canvas.getBoundingClientRect().left, touch.clientY - self.canvas.getBoundingClientRect().top);
